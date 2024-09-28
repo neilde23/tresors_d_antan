@@ -24,7 +24,6 @@ public class Orders {
 
     // Champ pour stocker le statut de la commande
     private Status status;
-
     private Long total_price;
     private String delivery_address;
 

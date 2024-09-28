@@ -86,7 +86,7 @@ public class Articles {
         this.stock = stock;
     }
 
-    public boolean getAvailable() {
+    public boolean isAvailable() {
         return this.available;
     }
 

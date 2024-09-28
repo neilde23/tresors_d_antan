@@ -1,4 +1,8 @@
 package com.example.demo.repository;
 
-public class PaymentsRepository {
+import com.example.demo.model.Payments;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PaymentsRepository extends JpaRepository<Payments, Long> {
+    Payments findByOrderId(Long orderId);
 }
