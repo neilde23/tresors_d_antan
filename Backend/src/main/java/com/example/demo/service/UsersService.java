@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
 import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Service
 public class UsersService {
     @Autowired
     private UsersRepository usersRepository;

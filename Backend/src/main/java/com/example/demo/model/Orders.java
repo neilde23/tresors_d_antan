@@ -1,19 +1,20 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orders")
 public class Orders {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
-    private Long user_id;
-    private Long cart_id;
+    private Long orderId;  // Utilisation de camelCase
+
+    @Column(name = "user_id")  // Mapper avec la colonne 'user_id' de la BD
+    private Long userId;
+
+    @Column(name = "cart_id")  // Mapper avec la colonne 'cart_id' de la BD
+    private Long cartId;
 
     // Enumération Status
     public enum Status {
@@ -23,59 +24,66 @@ public class Orders {
     }
 
     // Champ pour stocker le statut de la commande
+    @Column(name = "status")
     private Status status;
-    private Long total_price;
-    private String delivery_address;
 
+    @Column(name = "total_price")  // Mapper avec la colonne 'total_price' de la BD
+    private Long totalPrice;
+
+    @Column(name = "delivery_address")  // Mapper avec la colonne 'delivery_address' de la BD
+    private String deliveryAddress;
+
+    // Constructeurs
     public Orders() {
     }
 
-    public Orders(Long user_id, Long cart_id, Long total_price, String delivery_address) {
-        this.user_id = user_id;
-        this.cart_id = cart_id;
-        this.total_price = total_price;
-        this.delivery_address = delivery_address;
+    public Orders(Long userId, Long cartId, Long totalPrice, String deliveryAddress) {
+        this.userId = userId;
+        this.cartId = cartId;
+        this.totalPrice = totalPrice;
+        this.deliveryAddress = deliveryAddress;
         this.status = Status.PENDING; // Initialisation du statut à PENDING
     }
 
-    public Long getId() {
-        return this.order_id;
+    // Getters et setters
+    public Long getOrderId() {
+        return orderId;
     }
 
     public Long getUserId() {
-        return this.user_id;
+        return userId;
     }
 
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getCartId() {
-        return this.cart_id;
+        return cartId;
     }
 
-    public void setCartId(Long cart_id) {
-        this.cart_id = cart_id;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 
     public Long getTotalPrice() {
-        return this.total_price;
+        return totalPrice;
     }
 
-    public void setTotalPrice(Long total_price) {
-        this.total_price = total_price;
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getDeliveryAddress() {
-        return this.delivery_address;
+        return deliveryAddress;
     }
 
-    public void setDeliveryAddress(String delivery_address) {
-        this.delivery_address = delivery_address;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Status getStatus() {
-        return this.status;
+        return status;
     }
 
     public void setStatus(Status status) {

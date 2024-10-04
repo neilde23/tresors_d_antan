@@ -5,23 +5,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
-@Table(
-        name = "users"
-)
-
+@Table(name = "users")
 public class Users {
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    private Long user_id;
-    private String name;
-    private String email;
-    private String password;
-    // a voir si on ajoute les champs de type date ici
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;  // Utilisation de camelCase
+
+    private String name;
+
+    private String email;
+
+    private String password;
+
+    // Constructeurs
     public Users() {
     }
 
@@ -31,12 +31,13 @@ public class Users {
         this.password = password;
     }
 
-    public Long getId() {
-        return this.user_id;
+    // Getters et setters
+    public Long getUserId() {
+        return userId;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -44,7 +45,7 @@ public class Users {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -52,11 +53,10 @@ public class Users {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

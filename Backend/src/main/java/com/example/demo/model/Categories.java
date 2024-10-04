@@ -7,17 +7,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(
-        name = "categories"
-)
+@Table(name = "categories")
 public class Categories {
+
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    private Long category_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long categoryId;  // CamelCase
     private String name;
 
+    // Constructors, getters, and setters
     public Categories() {
     }
 
@@ -25,19 +23,15 @@ public class Categories {
         this.name = name;
     }
 
-    public Long getId() {
-        return this.category_id;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-
-
-
 }

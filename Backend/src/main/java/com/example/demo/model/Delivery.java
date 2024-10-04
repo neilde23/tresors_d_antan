@@ -5,85 +5,93 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "delivery")
-
 public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long delivery_id;
-    private Long order_id;
-    private String delivery_address;
-    private String estimated_delivery_date;
-    private String tracking_number;
+    private Long deliveryId;  // Utilisation de CamelCase
+
+    @Column(name = "order_id")  // Mapper avec la colonne 'order_id' de la BD
+    private Long orderId;
+
+    @Column(name = "delivery_address")  // Mapper avec la colonne 'delivery_address' de la BD
+    private String deliveryAddress;
+
+    @Column(name = "estimated_delivery_date")  // Mapper avec la colonne 'estimated_delivery_date' de la BD
+    private String estimatedDeliveryDate;
+
+    @Column(name = "tracking_number")  // Mapper avec la colonne 'tracking_number' de la BD
+    private String trackingNumber;
 
     // Enumération Status
     public enum Status {
         PENDING,
         SHIPPED,
-        DELIVERED,
+        DELIVERED
     }
 
     // Champ pour stocker le statut de la livraison
+    @Column(name = "status")  // Mapper avec la colonne 'status' de la BD
     private Status status;
 
-
+    // Constructeurs
     public Delivery() {
     }
 
-    public Delivery(Long order_id, String delivery_address, String estimated_delivery_date, String tracking_number) {
-        this.order_id = order_id;
-        this.delivery_address = delivery_address;
-        this.estimated_delivery_date = estimated_delivery_date;
-        this.tracking_number = tracking_number;
+    public Delivery(Long orderId, String deliveryAddress, String estimatedDeliveryDate, String trackingNumber) {
+        this.orderId = orderId;
+        this.deliveryAddress = deliveryAddress;
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+        this.trackingNumber = trackingNumber;
         this.status = Status.PENDING; // Initialisation du statut à PENDING
     }
 
-    public Long getId() {
-        return this.delivery_id;
+    // Getters et setters
+    public Long getDeliveryId() {
+        return deliveryId;
     }
 
     public Long getOrderId() {
-        return this.order_id;
+        return orderId;
     }
 
-    public void setOrderId(Long order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public String getDeliveryAddress() {
-        return this.delivery_address;
+        return deliveryAddress;
     }
 
-    public void setDeliveryAddress(String delivery_address) {
-        this.delivery_address = delivery_address;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public String getEstimatedDeliveryDate() {
-        return this.estimated_delivery_date;
+        return estimatedDeliveryDate;
     }
 
-    public void setEstimatedDeliveryDate(String estimated_delivery_date) {
-        this.estimated_delivery_date = estimated_delivery_date;
+    public void setEstimatedDeliveryDate(String estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
     }
 
     public String getTrackingNumber() {
-        return this.tracking_number;
+        return trackingNumber;
     }
 
-    public void setTrackingNumber(String tracking_number) {
-        this.tracking_number = tracking_number;
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
     }
 
     public Status getStatus() {
-        return this.status;
+        return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
-
-
 }

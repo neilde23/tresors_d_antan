@@ -5,73 +5,74 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "reviews")
-
-
 public class Reviews {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewId;  // Utilisation de camelCase
 
-    private Long review_id;
-    private Long user_id;
-    private Long article_id;
-    private int rating; // entre 1 et 5
+    @Column(name = "user_id")  // Mapper avec la colonne 'user_id' de la BD
+    private Long userId;
+
+    @Column(name = "article_id")  // Mapper avec la colonne 'article_id' de la BD
+    private Long articleId;
+
+    private Long rating;  // Entre 1 et 5
+
     private String comment;
-    // a voir avec les attributs de type date et time
 
+    // Constructeurs
     public Reviews() {
     }
 
-    public Reviews(Long user_id, Long article_id, int rating, String comment) {
-        this.user_id = user_id;
-        this.article_id = article_id;
+    public Reviews(Long userId, Long articleId, Long rating, String comment) {
+        this.userId = userId;
+        this.articleId = articleId;
         this.rating = rating;
         this.comment = comment;
     }
 
-    public Long getId() {
-        return this.review_id;
+    // Getters et setters
+    public Long getReviewId() {
+        return reviewId;
     }
 
     public Long getUserId() {
-        return this.user_id;
+        return userId;
     }
 
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getArticleId() {
-        return this.article_id;
+        return articleId;
     }
 
-    public void setArticleId(Long article_id) {
-        this.article_id = article_id;
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
     }
 
-    public int getRating() {
-        return this.rating;
+    public Long getRating() {
+        return rating;
     }
 
-    public void setRating(int rating) {
-        /*if (rating < 1 || rating > 5) {
+    public void setRating(Long rating) {
+        if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5.");
-        }*/
+        }
         this.rating = rating;
     }
 
     public String getComment() {
-        return this.comment;
+        return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-
-
-
-
 }

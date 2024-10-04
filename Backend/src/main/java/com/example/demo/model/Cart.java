@@ -8,40 +8,30 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cart")
-
 public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cartId;  // CamelCase
+    private Long userId;  // CamelCase
 
-    private Long cart_id;
-    private Long user_id;
-
+    // Constructors, getters, and setters
     public Cart() {
     }
 
-    public Cart(Long user_id) {
-        this.user_id = user_id;
-    }
-
-    public Long getId() {
-        return this.cart_id;
-    }
-
-    public Long getUserId() {
-        return this.user_id;
-    }
-
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public Cart(Long userId) {
+        this.userId = userId;
     }
 
     public Long getCartId() {
-        return this.cart_id;
+        return cartId;
     }
 
-    public void setCartId(Long cart_id) {
-        this.cart_id = cart_id;
+    public Long getUserId() {
+        return userId;
     }
 
-
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

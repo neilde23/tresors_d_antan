@@ -7,63 +7,76 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(
-        name = "articles"
-)
-
+@Table(name = "articles")
 public class Articles {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long articleId;  // Utilisation de camelCase
 
-    private Long article_id;
     private String name;
-    private Long category_id;
-    private Long price;
-    private String year;
-    private Long stock;
-    private boolean available;
-    private String description;
-    private String image_url;
 
+    private Long categoryId;  // Utilisation de camelCase
+
+    private Long price;
+
+    private String year;
+
+    private Long stock;
+
+    private boolean available;
+
+    private String description;
+
+    private String imageUrl;  // Utilisation de camelCase
+
+    // Constructeurs
     public Articles() {
     }
 
-    public Articles(String name, Long category_id, Long price, String year, Long stock, boolean available, String description, String image_url) {
+    public Articles(String name, Long categoryId, Long price, String year, Long stock, boolean available, String description, String imageUrl) {
         this.name = name;
-        this.category_id = category_id;
+        this.categoryId = categoryId;
         this.price = price;
         this.year = year;
         this.stock = stock;
         this.available = available;
         this.description = description;
-        this.image_url = image_url;
+        this.imageUrl = imageUrl;
     }
 
-    public Long getId() {
-        return this.article_id;
+    // Getters et setters utilisant camelCase
+    public Long getArticleId() {
+        return articleId;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Long getCategory() {
-        return this.category_id;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Long category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    // Ajout des méthodes getCategory() et setCategory() pour compatibilité
+    public Long getCategory() {
+        return categoryId;
+    }
+
+    public void setCategory(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Long getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(Long price) {
@@ -71,7 +84,7 @@ public class Articles {
     }
 
     public String getYear() {
-        return this.year;
+        return year;
     }
 
     public void setYear(String year) {
@@ -79,7 +92,7 @@ public class Articles {
     }
 
     public Long getStock() {
-        return this.stock;
+        return stock;
     }
 
     public void setStock(Long stock) {
@@ -87,7 +100,7 @@ public class Articles {
     }
 
     public boolean isAvailable() {
-        return this.available;
+        return available;
     }
 
     public void setAvailable(boolean available) {
@@ -95,7 +108,7 @@ public class Articles {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -103,14 +116,10 @@ public class Articles {
     }
 
     public String getImageUrl() {
-        return this.image_url;
+        return imageUrl;
     }
 
-    public void setImageUrl(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
-
-
-
-
 }

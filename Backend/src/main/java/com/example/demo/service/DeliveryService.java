@@ -23,8 +23,8 @@ public class DeliveryService {
         return (Delivery)this.deliveryRepository.findById(id).orElse((Delivery) null);
     }
 
-    public Delivery getDeliveryByOrderId(Long orderId) {
-        return (Delivery)this.deliveryRepository.findByOrderId(orderId);
+    public List<Delivery> getDeliveryByOrderId(Long orderId) {
+        return this.deliveryRepository.findByOrderId(orderId);
     }
 
     public Delivery createDelivery(Delivery delivery) {
