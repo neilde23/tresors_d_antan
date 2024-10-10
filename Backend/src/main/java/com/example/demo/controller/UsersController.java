@@ -31,6 +31,19 @@ public class UsersController {
         }
     }
 
+    @GetMapping({"/users/login"})
+    public ResponseEntity<Users> getUserByLogin(@RequestParam String email, @RequestParam String password) {
+        try {
+            Users user = this.usersService.getUserByEmailAndPassword(email, password);
+            if (user != null) {
+                return new ResponseEntity(user, HttpStatus.OK);
+            }
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping({"/users/{id}"})
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
         try {
@@ -44,9 +57,14 @@ public class UsersController {
         }
     }
 
-    @PostMapping({"/users"})
+    @PostMapping({"/users/add"})
     public ResponseEntity<Users> createUser(@RequestBody Users users) {
         try {
+            // verifier si l'utilisateur existe deja
+            Users user = this.usersService.getUserByEmailAndPassword(users.getEmail(), users.getPassword());
+            if (user != null) {
+                return new ResponseEntity(HttpStatus.CONFLICT);
+            }
             Users newUser = this.usersService.createUser(users);
             return new ResponseEntity(newUser, HttpStatus.CREATED);
         } catch (Exception e) {

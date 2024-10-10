@@ -1,70 +1,199 @@
 <template>
-    <header id="header" class="d-flex justify-content-center py-3 sticky-top">
-        <nav class="navbar nav-masthead">
-            <router-link class="logo" to="/"><img src="../assets/logo.png" alt="Logo"></router-link>
-            <div class="nav-links">
-                <router-link class="nav-link fw-bold py-1 px-0" to="/">Home</router-link>
-                <router-link class="nav-link fw-bold py-1 px-0" to="/about">About</router-link>
+    <nav>
+		<router-link to="/"><img src="../assets/logo.png" alt="" class="logo" /></router-link>
+		<ul>
+            <li><router-link to="/">Accueil</router-link></li>
+            <li><router-link to="/articles">Articles</router-link></li>
+            <li><router-link to="/about">A propos</router-link></li>
+            <div class="user-info">
+                <!-- Icon for profile -->
+                <router-link class="nav-link" :to="$store.state.userCredentials ? '/profile' : '/login'">
+                    <i class="fas fa-user"></i>
+                    {{ $store.state.userCredentials ? $store.state.userCredentials.name : 'Login' }}
+                </router-link>
+                <!-- User's name -->
+                <span></span>
+                <!-- Icon for notifications -->
+                <router-link class="nav-link" to="/"><i class="fas fa-bell"></i></router-link>
             </div>
-        </nav>
-    </header>
+		</ul>
+        <div class="cart icon-cart" @click="toggleCart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">{{ cartTotalQuantity }}</span>
+        </div>
+        <Cart
+            :cartVisible="cartVisible"
+            :cart="cartItems"
+            @toggle-cart="toggleCart"
+            @update-quantity="updateQuantity"
+        />
+    </nav>
 </template>
 
 <script>
+    import Cart from './Cart.vue';
+    import axios from 'axios';
+    import Swal from 'sweetalert2';
+
     export default {
-        name: 'Header'
+        name: 'Header',
+        components: {
+            Cart
+        },
+        data() {
+            return {
+                cartVisible: false,
+                cartItems: [],
+            };
+        },
+        computed: {
+            cartTotalQuantity() {
+                if (!this.$store.state.cart) {
+                    return 0;
+                }
+                if (!this.cartItems.length) {
+                    return 0;
+                }
+                // this.getCartItems();
+                let total = 0;
+                this.cartItems.forEach(item => {
+                    total += item.quantity;
+                });
+                return total;
+            }
+        },
+        mounted () {
+            this.getCartItems();
+        },
+        methods: {
+            async getCartItems() {
+                if (!this.$store.state.cart) {
+                    return;
+                }
+                try {
+                    console.log("cart id: ", this.$store.state.cart.cartId);
+                    const response = await axios.get('http://localhost:8080/api/cart-items/cart/' + this.$store.state.cart.cartId);
+                    this.cartItems = response.data;
+                } catch (error) {
+                    console.error('Error getting cart items:', error);
+                }
+            },
+            toggleCart() {
+                this.cartVisible = !this.cartVisible;
+            },
+            updateQuantity({ productId, type }) {
+                const item = this.cartItems.find(i => i.cartItemId === productId);
+                if (type === 'minus') {
+                    item.quantity -= 1;
+                } else {
+                    item.quantity += 1;
+                }
+                this.updateCart(item);
+            },
+            async updateCart(item) {
+                try {
+                    await axios.put('http://localhost:8080/api/cart-items/update/' + item.cartItemId, item.quantity, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    this.getCartItems();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Cart updated successfully!',
+                    });
+                } catch (error) {
+                    console.error('Error updating cart item:', error);
+                }
+            }
+        }
     }
 </script>
 
 <style scoped>
-    * {
-        font-size: small;
-    }
-
-    #header {
-        background-color: #161719;
-        border-bottom: 0.5px solid #a47c3a;
-        opacity: 0.6;
-    }
-
-    .navbar {
-        display: flex;
-        width : 100%;
-        align-items: center;
-    }
-
-    .nav-links {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .nav-links .login-pages {
-        display: flex;
-        margin: 0 20px;
+    nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 5px 0;
+    position: fixed;
+    margin-top:0;
+    width :80%;
+    z-index: 100;
     }
 
     nav .logo {
-        margin-left: 20px; /* Adjust margin as needed */
-        height: 50px; /* Adjust height as needed */
+        width: 120px;
+        cursor: pointer;
     }
 
-    nav img {
-        height: 70px; /* Adjust height as needed */
+    nav .cart {
+        width: 40px;
+        cursor: pointer;
+        color : white;
     }
 
-    .user-info {
+    nav ul {
         display: flex;
-        margin-right: 20px;
+        justify-content: flex-end;
+        flex: 1;
+        padding-right: 40px;
+        text-align: right;
+        list-style-type: none;
+    }
+
+    ul li {
+        margin-right: 10px;
+    }
+
+    ul li a {
+        position: relative;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    ul li a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0;
+        transform: translateX(-50%) translateY(-5px);
+        height: 3px;
+        background: #ffa400;
+        transition: 0.3s;
+    }
+
+    ul li a:hover::after {
+        width: 38%;
     }
 
     .user-info a {
-        color: white; /* Set text color */
-        margin: 0 10px;
+        position: relative;
+        padding: 10px 20px;
         text-decoration: none;
+        color: #fff;
+        font-size: 16px;
     }
 
-    .user-info a:hover {
-        text-decoration: underline;
+    .user-info a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0;
+        transform: translateX(-50%) translateY(-5px);
+        height: 3px;
+        background: #ffa400;
+        transition: 0.3s;
+    }
+
+    .user-info a:hover::after {
+        width: 38%;
     }
 
     .user-info span {

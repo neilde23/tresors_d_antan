@@ -20,6 +20,8 @@ public class Cart_itemsController {
     @PostMapping("/add")
     public ResponseEntity<CartItems> addCartItem(@RequestBody CartItems cartItem) {
         try {
+            // afficher le contenu du panier
+            System.out.println(cartItem);
             CartItems newCartItem = Cart_itemsRepository.createCart_items(cartItem);
             return new ResponseEntity<>(newCartItem, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -57,9 +59,13 @@ public class Cart_itemsController {
 
     // 4. Mettre à jour la quantité d'un article par ID
     @PutMapping("/update/{id}")
-    public ResponseEntity<CartItems> updateCartItem(@PathVariable("id") Long id, @RequestBody CartItems cartItemDetails) {
+    public ResponseEntity<CartItems> updateCartItem(@PathVariable("id") Long id, @RequestBody Long quantity) {
         try {
-            CartItems updatedCartItem = Cart_itemsRepository.updateCart_items(id, cartItemDetails);
+            if (quantity <= 0) {
+                Cart_itemsRepository.deleteCart_items(id);
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            }
+            CartItems updatedCartItem = Cart_itemsRepository.updateCart_itemsQuantity(id, quantity);
             return new ResponseEntity<>(updatedCartItem, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +77,17 @@ public class Cart_itemsController {
     public ResponseEntity<HttpStatus> deleteCartItem(@PathVariable("id") Long id) {
         try {
             Cart_itemsRepository.deleteCart_items(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete/cart/{id}")
+    public ResponseEntity<HttpStatus> deleteCartItemsByCartId(@PathVariable("id") Long id) {
+        try {
+            Cart_itemsRepository.deleteCart_itemsByCartId(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

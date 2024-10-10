@@ -35,13 +35,20 @@ public class Cart_itemsService {
         this.cart_itemsRepository.deleteById(id);
     }
 
-    public CartItems updateCart_items(Long id, CartItems cart_items) {
+    public CartItems updateCart_itemsQuantity(Long id, Long quantity) {
         CartItems cart_item = (CartItems)this.cart_itemsRepository.findById(id).orElse((CartItems) null);
         if (cart_item != null) {
-            cart_item.setQuantity(cart_items.getQuantity());
+            cart_item.setQuantity(quantity);
             return (CartItems)this.cart_itemsRepository.save(cart_item);
         } else {
             return (CartItems) null;
+        }
+    }
+
+    public void deleteCart_itemsByCartId(Long cartId) {
+        List<CartItems> cartItems = this.cart_itemsRepository.findByCartId(cartId);
+        if (!cartItems.isEmpty()) {
+            this.cart_itemsRepository.deleteAll(cartItems);
         }
     }
 }

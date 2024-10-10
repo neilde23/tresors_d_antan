@@ -85,7 +85,9 @@ public class CartController {
             if (cart != null) {
                 return new ResponseEntity<>(cart, HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            // Si le panier n'existe pas, le créer automatiquement
+            Cart newCart = cartService.createCart(new Cart(id));
+            return new ResponseEntity<>(newCart, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

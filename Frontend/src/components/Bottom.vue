@@ -1,15 +1,10 @@
 <template>
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Tresors d'Antan. All rights reserved.</p>
-            <nav>
-                <ul>
-                    <router-link class="list" to="/">Home</router-link>
-                    <router-link class="list" to="/about">About</router-link>
-                </ul>
-            </nav>
-        </div>
-    </footer>
+    <section class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="https://drive.google.com/file/d/1u2ZQxyamKsgJ4JxO-kYbytfxaaEkOT_a/view?usp=sharing" target="_blank"><img src="" alt=""></a>
+    </section>
 </template>
     
 <script>
@@ -20,41 +15,16 @@ export default {
 </script>
     
 <style scoped>
-    footer {
-        background-color: transparent;
-        color: #fff;
-        padding: 20px 0;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        border-top: .15rem solid white;
-        border-top-color: rgba(255, 255, 255, .25);
+        .social-icons {
+    position: fixed;
+    right: 5%;
+    bottom: 8%;
+    color: white;
     }
 
-    .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    .container p {
-        margin: 0;
-    }
-
-    nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .list {
-        color: #fff;
-        text-decoration: none;
-        margin: 0 10px;
-    }
-
-    .list:hover {
-        color: #a47c3a;
+    .social-icons a {
+    padding: 5px;
+    margin-right: 4px;
+    color: white;
     }
 </style>

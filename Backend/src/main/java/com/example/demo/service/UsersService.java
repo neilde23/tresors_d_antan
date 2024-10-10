@@ -26,6 +26,10 @@ public class UsersService {
         return (Users)this.usersRepository.save(users);
     }
 
+    public Users getUserByEmailAndPassword(String email, String password) {
+        return this.usersRepository.findByEmailAndPassword(email, password);
+    }
+
     public void deleteUser(Long id) {
         this.usersRepository.deleteById(id);
     }
@@ -36,6 +40,8 @@ public class UsersService {
             user.setName(users.getName());
             user.setEmail(users.getEmail());
             user.setPassword(users.getPassword());
+            user.setRole(users.getRole());
+            user.setAddress(users.getAddress());
             return (Users)this.usersRepository.save(user);
         } else {
             return (Users) null;

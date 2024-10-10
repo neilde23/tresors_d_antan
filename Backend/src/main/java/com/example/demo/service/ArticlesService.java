@@ -47,4 +47,8 @@ public class ArticlesService {
             return (Articles) null;
         }
     }
+
+    public List<Articles> getArticlesByCategory(Long categoryId) {
+        return this.articlesRepository.findByCategoryId(categoryId);
+    }
 }
